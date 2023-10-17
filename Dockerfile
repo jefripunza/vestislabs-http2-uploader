@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 FROM golang:1.18-alpine as builder
 MAINTAINER Jefri Herdi Triyanto, jefriherditriyanto@gmail.com
 
@@ -30,12 +28,17 @@ RUN go build -o ./run
 RUN sed -i 's/localhost/host.docker.internal/g' .env
 
 # 🚀 Finishing !!
-FROM alpine:latest
+FROM alpine:latest as runner
 WORKDIR /app
+
+# Add the community repository to get ffmpeg
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+
+# Install ffmpeg along with the other tools
+RUN apk add --no-cache openssl curl nano ffmpeg
 
 COPY --from=builder /build/run  /app/run
 
-RUN apk add --no-cache openssl curl nano
 RUN chmod +x ./run
 
 ENTRYPOINT ["/app/run"]
