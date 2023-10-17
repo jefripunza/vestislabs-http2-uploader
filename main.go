@@ -17,7 +17,7 @@ import (
 // @Description This is an API for example create stream video after upload & convert
 // @TermsOfService Vestislabs
 // @Contact.name  Jefri Herdi Triyanto
-// @Contact.url   https://www.vestislabs.com/
+// @Contact.url   https://github.com/jefripunza/vestislabs-http2-uploader
 // @Contact.email jefriherditriyanto@gmail.com
 func main() {
 	src.MakeDir()
