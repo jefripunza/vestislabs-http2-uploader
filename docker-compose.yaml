@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "12120:1337"
+    # volumes:
+    #   # setup file or folder
+    #   - /mnt/storage/try-deno:/app/assets
+    network_mode: bridge
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

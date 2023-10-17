@@ -1,0 +1,108 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is an API for example create stream video after upload \u0026 convert",
+        "title": "Vestislabs HTTP2 Uploader",
+        "termsOfService": "Vestislabs",
+        "contact": {
+            "name": "Jefri Herdi Triyanto",
+            "url": "https://www.vestislabs.com/",
+            "email": "jefriherditriyanto@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/v1/download/{filename}/": {
+            "get": {
+                "description": "Download a file by filename",
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "summary": "Download a file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filename",
+                        "name": "filename",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/src.JSONResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/uploader/": {
+            "post": {
+                "description": "Uploads a video, converts it, and then sends back the converted video.",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "video/mp4"
+                ],
+                "tags": [
+                    "Video"
+                ],
+                "summary": "Upload and Convert Video",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Video file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Converted video file",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/src.JSONResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/src.JSONResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "src.JSONResponse": {
+            "type": "object",
+            "properties": {
+                "Message": {
+                    "type": "string"
+                },
+                "StatusCode": {
+                    "type": "integer"
+                },
+                "Success": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

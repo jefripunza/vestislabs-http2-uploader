@@ -1,0 +1,72 @@
+definitions:
+  src.JSONResponse:
+    properties:
+      Message:
+        type: string
+      StatusCode:
+        type: integer
+      Success:
+        type: boolean
+    type: object
+info:
+  contact:
+    email: jefriherditriyanto@gmail.com
+    name: Jefri Herdi Triyanto
+    url: https://www.vestislabs.com/
+  description: This is an API for example create stream video after upload & convert
+  termsOfService: Vestislabs
+  title: Vestislabs HTTP2 Uploader
+  version: "1.0"
+paths:
+  /v1/download/{filename}/:
+    get:
+      description: Download a file by filename
+      parameters:
+      - description: Filename
+        in: path
+        name: filename
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/src.JSONResponse'
+      summary: Download a file
+  /v1/uploader/:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Uploads a video, converts it, and then sends back the converted
+        video.
+      parameters:
+      - description: Video file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - video/mp4
+      responses:
+        "200":
+          description: Converted video file
+          schema:
+            type: file
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/src.JSONResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/src.JSONResponse'
+      summary: Upload and Convert Video
+      tags:
+      - Video
+swagger: "2.0"
